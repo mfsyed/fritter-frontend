@@ -50,6 +50,14 @@ const store = new Vuex.Store({
       /**
        * Request the server for the currently available freets.
        */
+      const url = state.filter ? `/api/users/${state.filter}/freets` : '/api/freets';
+      const res = await fetch(url).then(async r => r.json());
+      state.freets = res;
+    },
+    async refreshItemsForSale(state) {
+      /**
+       * Request the server for the currently available freets.
+       */
       const url = state.filter ? `/api/users/${state.filter}/itemsForSale` : '/api/itemsForSale';
       const res = await fetch(url).then(async r => r.json());
       state.itemsForSale = res;
