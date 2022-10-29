@@ -11,6 +11,9 @@
       </h1>
     </div>
     <div class="right">
+      <router-link to="/marketplace">
+        Marketplace
+      </router-link>
       <router-link to="/">
         Home
       </router-link>
