@@ -3,6 +3,7 @@ import express from 'express';
 import FreetCollection from '../freet/collection';
 import UserCollection from './collection';
 import ItemForSaleCollection from '../ItemForSale/collection';
+import CommentCollection from '../Comment/collection';
 import * as userValidator from '../user/middleware';
 import * as util from './util';
 
@@ -164,6 +165,7 @@ router.delete(
     await UserCollection.deleteOne(userId);
     await FreetCollection.deleteMany(userId);
     await ItemForSaleCollection.deleteManyItems(userId);
+    await CommentCollection.deleteManyByCommentor(userId);
     req.session.userId = undefined;
     res.status(200).json({
       message: 'Your account has been deleted successfully.'

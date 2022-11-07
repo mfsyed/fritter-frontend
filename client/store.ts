@@ -12,6 +12,8 @@ const store = new Vuex.Store({
     filter: null, // Username to filter shown freets by (null = show all)
     freets: [], // All freets created in the app
     itemsForSale: [],
+    itemsInCart: [],
+    shoppingCart: null,
     username: null, // Username of the logged in user
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
@@ -68,7 +70,22 @@ const store = new Vuex.Store({
        * @param itemsForSale - Freets to store
        */
       state.itemsForSale =itemsForSale;
+    },
+
+    updateShoppingCart(state, shoppingCart) {
+      /**
+       * Update the stored freets to the provided freets.
+       * @param freets - Freets to store
+       */
+      state.shoppingCart = shoppingCart;
+    },
+
+    async refreshShoppingCart(state){
+      const url = `/api/shoppingCart/=${state.shoppingCart._id}`;
+      const res = await fetch(url).then(async r => r.json());
+      state.freets = res;
     }
+
   },
   // Store data across page refreshes, only discard on browser close
   plugins: [createPersistedState()]

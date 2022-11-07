@@ -52,6 +52,19 @@
       Posted at {{ freet.dateModified }}
       <i v-if="freet.edited">(edited)</i>
     </p>
+    <button @click="getComments">
+      See Comments 
+    </button>
+    <section
+        v-if="seeCommentsToggle"
+      >
+        <CommentComponent
+          v-for="comment in this.data.comments"
+          :key="comment.id"
+          :comment="comment"
+        />
+      </section>
+    <!-- loop through comments, render them here using v-for -->
     <section class="alerts">
       <article
         v-for="(status, alert, index) in alerts"
@@ -65,8 +78,11 @@
 </template>
 
 <script>
+//import Comment Component
+import CommentComponent from '@/components/Comment/CommentComponent.vue';
 export default {
   name: 'FreetComponent',
+  components: {CommentComponent},
   props: {
     // Data from the stored freet
     freet: {
@@ -78,10 +94,59 @@ export default {
     return {
       editing: false, // Whether or not this freet is in edit mode
       draft: this.freet.content, // Potentially-new content for this freet
+      comments: [],
+      seeCommentsToggle: false,
       alerts: {} // Displays success/error messages encountered during freet modification
     };
   },
   methods: {
+    getComments() {
+
+      this.seeCommentsToggle = !this.seeCommentsToggle;
+      console.log("toggle");
+      console.log(this.seeCommentsToggle);
+      const params = {
+        method: 'GET',
+        message: 'Successfully got comments!',
+        callback: () => {
+          this.$set(this.alerts, params.message, 'success');
+          setTimeout(() => this.$delete(this.alerts, params.message), 3000);
+        }
+      };
+      this.requestComments(params);
+    },
+
+    async requestComments(params) {
+      /**
+       * Submits a request to the freet's endpoint
+       * @param params - Options for the request
+       * @param params.body - Body for the request, if it exists
+       * @param params.callback - Function to run if the the request succeeds
+       */
+      const options = {
+        method: params.method, headers: {'Content-Type': 'application/json'}
+      };
+      if (params.body) {
+        options.body = params.body;
+      }
+
+      try {
+        const r = await fetch(`/api/comment?originalFreetId=${this.freet._id}`, options);
+        console.log(r);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
+        }
+
+        // this.$store.commit('refreshFreets');
+
+        params.callback();
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
+    },
+
     startEditing() {
       /**
        * Enables edit mode on this freet.

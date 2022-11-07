@@ -6,7 +6,7 @@
       <header>
         <h2>Welcome @{{ $store.state.username }}</h2>
       </header>
-      <GetItemsForSaleForm />
+      <CreateItemForSaleForm />
     </section>
     <section v-else>
       <header>
@@ -33,7 +33,7 @@
         </div>
         <div class="right">
           <GetItemsForSaleForm
-            ref="getItemsForSaleForm"
+            ref="GetItemsForSaleForm"
             value="seller"
             placeholder="🔍 Filter by seller (optional)"
             button="🔄 Get ItemForSales"

@@ -3,6 +3,7 @@ import express from 'express';
 import FreetCollection from './collection';
 import * as userValidator from '../user/middleware';
 import * as freetValidator from '../freet/middleware';
+import CommentCollection from '../Comment/collection';
 import * as util from './util';
 
 const router = express.Router();
@@ -95,6 +96,7 @@ router.delete(
   ],
   async (req: Request, res: Response) => {
     await FreetCollection.deleteOne(req.params.freetId);
+    await CommentCollection.deleteManyByFreet(req.params.freetId);
     res.status(200).json({
       message: 'Your freet was deleted successfully.'
     });
