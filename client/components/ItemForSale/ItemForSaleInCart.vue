@@ -50,7 +50,7 @@
 
 <script>
 
-import ShoppingCartComponent from '@/components/ShoppingCart/ShoppingCartComponent.vue';
+import ShoppingCartComponent from '@/components/ShoppingCart/ShoppingCartPage.vue';
 export default {
   name: 'ItemForSaleInCart',
   props: {

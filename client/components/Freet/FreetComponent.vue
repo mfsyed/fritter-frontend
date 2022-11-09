@@ -59,7 +59,7 @@
         v-if="seeCommentsToggle"
       >
         <CommentComponent
-          v-for="comment in this.data.comments"
+          v-for="comment in comments"
           :key="comment.id"
           :comment="comment"
         />
@@ -99,6 +99,11 @@ export default {
       alerts: {} // Displays success/error messages encountered during freet modification
     };
   },
+  // computed(){
+  //   return{
+  //   comments: []
+  //   }
+  // },
   methods: {
     getComments() {
 
@@ -133,6 +138,9 @@ export default {
       try {
         const r = await fetch(`/api/comment?originalFreetId=${this.freet._id}`, options);
         console.log(r);
+        console.log("freetspagecomments");
+        console.log(typeof(r));
+        comments = r;
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);

@@ -1,10 +1,6 @@
 <!-- Reusable component representing a single freet and its actions -->
 <!-- We've tagged some elements with classes; consider writing CSS using those classes to style them... -->
 
-// have backend code for getting all the items in a cart
-// create a shoppingCartGetItems for sale to have the items displayed
-// in the data section, have a map for quantity of items
-
 <template>
   <article
     class="shoppingCart"
