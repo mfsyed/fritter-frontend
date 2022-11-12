@@ -48,10 +48,46 @@
     >
       {{ freet.content }}
     </p>
-    <p class="info">
-      Posted at {{ freet.dateModified }}
-      <i v-if="freet.edited">(edited)</i>
+    
+
+    <section>
+      
+      <textarea
+        :value="commentContent"
+        @input="commentContent = $event.target.value"
+      />
+      <br>
+      <button @click="submitComment">
+        Create Comment
+      </button>
+    <!-- <CreateCommentForm/> -->
+    </section>
+  <br>
+    <!-- <section
+        v-if="seeCommentsToggle"
+      >
+        <CommentComponent
+          v-for="comment in comments"
+          :key="comment.id"
+          :comment="comment"
+        />
+      </section> -->
+
+
+    <section
+      v-if="notLiked" >
+    <button @click="like">
+      Like
+    </button>
+    </section>
+
+    <p
+      v-else
+    >
+      You liked this freet!
     </p>
+
+
     <button @click="getComments">
       See Comments 
     </button>
@@ -65,6 +101,12 @@
         />
       </section>
     <!-- loop through comments, render them here using v-for -->
+
+    <p class="info">
+      Posted at {{ freet.dateModified }}
+      <i v-if="freet.edited">(edited)</i>
+    </p>
+
     <section class="alerts">
       <article
         v-for="(status, alert, index) in alerts"
@@ -80,9 +122,10 @@
 <script>
 //import Comment Component
 import CommentComponent from '@/components/Comment/CommentComponent.vue';
+import CreateCommentForm from '@/components/Comment/CreateCommentForm.vue';
 export default {
   name: 'FreetComponent',
-  components: {CommentComponent},
+  components: {CommentComponent, CreateCommentForm},
   props: {
     // Data from the stored freet
     freet: {
@@ -95,16 +138,101 @@ export default {
       editing: false, // Whether or not this freet is in edit mode
       draft: this.freet.content, // Potentially-new content for this freet
       comments: [],
+      commentContent: "",
       seeCommentsToggle: false,
+      notLiked: true,
       alerts: {} // Displays success/error messages encountered during freet modification
     };
   },
-  // computed(){
-  //   return{
-  //   comments: []
-  //   }
-  // },
+
   methods: {
+
+    
+
+    submitComment(){
+
+      notLiked = false;
+
+      const params = {
+        method: 'POST',
+        message: 'Successfully commented on a freet',
+        body: JSON.stringify({content: this.commentContent}),
+        callback: () => {
+          this.$set(this.alerts, params.message, 'success');
+          setTimeout(() => this.$delete(this.alerts, params.message), 3000);
+        }
+      };
+
+      this.postComment(params);
+
+    },
+
+    async postComment(params){
+        const options = {
+        method: params.method, headers: {'Content-Type': 'application/json'}
+      };
+      if (params.body) {
+        options.body = params.body;
+      }
+
+      try {
+        const r = await fetch(`/api/comment/${this.freet._id}`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
+        }
+
+        //this.editing = false;
+        //this.$store.commit('refreshFreets');
+
+        params.callback();
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
+    },
+
+    like(){
+
+      const params = {
+        method: 'POST',
+        message: 'Successfully liked freet!',
+        body: JSON.stringify({reaction: "Like"}),
+        callback: () => {
+          this.$set(this.alerts, params.message, 'success');
+          setTimeout(() => this.$delete(this.alerts, params.message), 3000);
+        }
+      };
+
+      this.postLike(params);      
+    },
+
+    async postLike(params){
+        const options = {
+        method: params.method, headers: {'Content-Type': 'application/json'}
+      };
+      if (params.body) {
+        options.body = params.body;
+      }
+
+      try {
+        const r = await fetch(`/api/react/${this.freet._id}`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          console.log(res);
+          throw new Error("You already liked this freet!");
+        }
+
+        //this.editing = false;
+        //this.$store.commit('refreshFreets');
+
+        params.callback();
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
+    },
+
     getComments() {
 
       this.seeCommentsToggle = !this.seeCommentsToggle;
@@ -137,10 +265,14 @@ export default {
 
       try {
         const r = await fetch(`/api/comment?originalFreetId=${this.freet._id}`, options);
-        console.log(r);
-        console.log("freetspagecomments");
-        console.log(typeof(r));
-        comments = r;
+        //console.log(r.json());
+        //console.log("freetspagecomments");
+        //console.log(typeof(r));
+        // comments = await r.json();
+        const res = await r.json();
+        //console.log(res);
+        this.comments= res;
+        //console.log(comments);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);
@@ -244,5 +376,28 @@ export default {
     border: 1px solid #111;
     padding: 20px;
     position: relative;
+    color: #10104f;
+    background-color: #E6E6FA;
+    width: 100%;
+    border-radius: 20px;
+    margin-bottom: 10px;
 }
+
+.content {
+  color: #10104f;
+  font-size: 25px;
+  border: 5px;
+  border-color: #10104f;
+}
+
+.actions {
+  align-content: right;
+}
+
+.info {
+  align-items: right;
+  font-size: 15px;
+}
+
+
 </style>

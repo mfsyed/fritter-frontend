@@ -93,4 +93,14 @@ section .scrollbox {
   padding: 3%;
   overflow-y: scroll;
 }
+
+main{
+  background-color: #a6a6ed;
+  color: #10104f;
+}
+
+h2{
+  color: #10104f;
+  align-content: center;
+}
 </style>

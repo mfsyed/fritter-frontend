@@ -76,6 +76,7 @@ export default {
 section {
   display: flex;
   flex-direction: column;
+  color: #10104f;
 }
 
 header, header > * {
@@ -86,6 +87,10 @@ header, header > * {
 
 button {
     margin-right: 10px;
+}
+
+main{
+  background-color: #a6a6ed;
 }
 
 section .scrollbox {

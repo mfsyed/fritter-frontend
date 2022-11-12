@@ -60,7 +60,13 @@
           :key="comment.id"
           :comment="comment"
         />
-      </section>
+    </section>
+
+    <button
+          v-if="editing"
+          @click="submitEdit"
+        >
+
     <!-- loop through comments, render them here using v-for -->
     <section class="alerts">
       <article

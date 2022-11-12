@@ -48,6 +48,7 @@ export default {
 form {
     display: flex;
     position: relative;
+    
 }
 
 input {

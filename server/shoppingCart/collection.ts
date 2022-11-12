@@ -98,6 +98,18 @@ class ShoppingCartCollection {
     return items;
   }
 
+  static async getAllItemsInCartByUsername(cartOwner: Types.ObjectId | string): Promise<Array<HydratedDocument<ItemForSale>>> {
+    const cart = await ShoppingCartModel.findOne({cartOwner});
+    const items = Array<HydratedDocument<ItemForSale>>();
+    for(let [itemName, quantity] of cart.items.entries()){
+      const cartItem = await ItemForSaleCollection.findOne(itemName);
+      items.push(cartItem);
+    }
+    console.log("items");
+    console.log(items);
+    return items;
+  }
+
 
   /**
    * Update a freet with the new content

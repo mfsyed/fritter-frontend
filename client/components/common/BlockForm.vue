@@ -118,12 +118,23 @@ export default {
 <style scoped>
 form {
   border: 1px solid #111;
+  background-color: #E6E6FA;
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin-bottom: 14px;
   position: relative;
+  border-radius: 10px;
+}
+
+button{
+  background-color: #bbbbf1;
+  border-radius: 5px;
+  width:30%;
+  height: 30px;
+  align-self: center;
+  font: 40px;
 }
 
 article > div {
@@ -133,6 +144,7 @@ article > div {
 
 form > article p {
   margin: 0;
+
 }
 
 form h3,

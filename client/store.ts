@@ -72,18 +72,18 @@ const store = new Vuex.Store({
       state.itemsForSale =itemsForSale;
     },
 
-    updateShoppingCart(state, shoppingCart) {
+    updateItemsInCart(state, itemsInCart) {
       /**
        * Update the stored freets to the provided freets.
        * @param freets - Freets to store
        */
-      state.shoppingCart = shoppingCart;
+      state.itemsInCart = itemsInCart;
     },
 
-    async refreshShoppingCart(state){
+    async refreshItemsInCart(state){
       const url = `/api/shoppingCart/=${state.shoppingCart._id}`;
       const res = await fetch(url).then(async r => r.json());
-      state.freets = res;
+      state.itemsInCart = res;
     }
 
   },

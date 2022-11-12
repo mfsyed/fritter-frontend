@@ -12,6 +12,7 @@ import {freetRouter} from '../server/freet/router';
 import { itemForSaleRouter } from '../server/ItemForSale/router';
 import { commentRouter } from '../server/Comment/router';
 import { shoppingCartRouter } from '../server/shoppingCart/router';
+import { reactRouter } from '../server/react/router';
 import MongoStore from 'connect-mongo';
 
 // Load environmental variables
@@ -76,6 +77,7 @@ app.use('/api/freets', freetRouter);
 app.use('/api/itemsForSale', itemForSaleRouter);
 app.use('/api/comment', commentRouter);
 app.use('/api/shoppingCart', shoppingCartRouter);
+app.use('/api/react', reactRouter);
 
 // Catch all the other routes and display error message
 app.all('*', (req: Request, res: Response) => {

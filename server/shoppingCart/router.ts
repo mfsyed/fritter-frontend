@@ -36,7 +36,7 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
   
     // Check if authorId query parameter was supplied
-    if (req.query.shoppingCartId !== undefined) {
+    if (req.query.cartOwner !== undefined) {
       next();
       return;
     }
@@ -49,7 +49,7 @@ router.get(
   async (req: Request, res: Response) => {
     //const cart = await ShoppingCartCollection.findCartByUserId(req.session.userId as string);
     //const items = await ShoppingCartCollection.getAllItemsInCart(cart._id.ShoppingCartModel as string);
-    const items = await ShoppingCartCollection.getAllItemsInCart(req.query.shoppingCartId as string);
+    const items = await ShoppingCartCollection.getAllItemsInCartByUsername(req.query.cartOwner as string);
     const formattedItems = items.map(itemForSaleUtil.constructItemForSaleResponse);
     res.status(200).json(formattedItems);
   }

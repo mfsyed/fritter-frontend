@@ -46,17 +46,19 @@
       v-else
       class="description"
     >
-      {{ itemForSale.description}}
+      <a id="infolabel"> Description </a>
+      <br> {{ itemForSale.description}}
     </p>
     <p
       class="price"
-    >
-      {{ itemForSale.price}}
+    > <a id="infolabel"> Price </a> <br>
+      ${{ itemForSale.price}}
     </p>
     <p
       class="link"
     >
-      {{ itemForSale.link}}
+      <a id="infolabel"> Purchase through website: </a> <br>
+      {{itemForSale.link}}
     </p>
     <p class="info">
       Posted at {{ itemForSale.dateModified }}
@@ -181,5 +183,33 @@ export default {
     border: 1px solid #111;
     padding: 20px;
     position: relative;
+    color: #10104f;
+    width: 100%;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    background-color: #E6E6FA;
+}
+
+.description{
+  background-color: #fbfbfe; 
+  border-radius: 10px;
+  padding: 1%;
+}
+
+.price, .link{
+  padding: 1%;
+}
+
+#infolabel{
+  color: 000;
+  font-size: 25px;
+}
+
+
+
+.info {
+  align-content: center;
+  padding-left: 75%;
+  font-size: 15px;
 }
 </style>

@@ -48,7 +48,7 @@
 <style scoped>
 nav {
     padding: 1vw 2vw;
-    background-color: #ccc;
+    background-color: #d1d1f6;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -69,6 +69,7 @@ img {
 	align-items: center;
 }
 
+
 .right {
     font-size: 20px;
     display: grid;
@@ -77,8 +78,16 @@ img {
     align-items: center;
 }
 
-.right a {
+
+.right a{
     margin-left: 5px;
+    text-align-last: center;
+    width: 150px;
+    padding: 5%;
+    background-color: #9191e9;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
 }
 
 .alerts {
